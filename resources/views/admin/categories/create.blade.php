@@ -1,9 +1,11 @@
 @extends('admin.layouts.master')
+@section('content')
+
 <div class="main-content">
 
     <div class="page-content">
         <div class="container-fluid">
-            <form action="{{ url('category') }}" method="POST">
+            <form action="{{ url('categories') }}" method="POST">
                 @csrf
                 @method('POST')
                 <div class="row mb-3">
@@ -22,3 +24,5 @@
         </div>
     </div>
 </div>
+
+@endsection

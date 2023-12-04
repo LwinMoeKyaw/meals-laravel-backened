@@ -38,7 +38,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->CategoryInterface->store();
+        return redirect('categories');
     }
 
     /**
@@ -54,7 +55,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories = $this->CategoryInterface->findById($id);
+        return view('admin.categories.edit', compact('categories'));
     }
 
     /**
@@ -62,7 +64,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->CategoryInterface->update($id);
+        return redirect('categories');
     }
 
     /**
@@ -70,6 +73,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->CategoryInterface->destroy($id);
+        return redirect('categories');
     }
 }
