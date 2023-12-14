@@ -3,15 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Interfaces\ProductInterface;
+use App\Models\Category;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private ProductInterface $ProductInterface
+    )
+    {
+
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.products.index');
+
+        $categories = Category::all();
+
+        $products = $this->ProductInterface->all();
+
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -19,7 +33,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -27,7 +42,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->ProductInterface->store($request);
+        return redirect('products');
     }
 
     /**
@@ -41,17 +57,21 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
-        //
+        $categories = Category::all();
+        $products = Product::findOrFail($id);
+        return view('admin.products.edit', compact('products','categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update( string $id)
     {
-        //
+        // dd(request()->all());
+        $this->ProductInterface->update($id);
+        return redirect('products');
     }
 
     /**
@@ -59,6 +79,7 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->ProductInterface->destroy($id);
+        return redirect('products');
     }
 }
