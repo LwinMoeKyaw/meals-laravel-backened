@@ -16,6 +16,8 @@ class CategoryRepository implements CategoryInterface{
         $categories = new Category();
         $categories->name = request()->name;
         $categories->save();
+
+
     }
     public function findById($id)
     {

@@ -2,12 +2,15 @@
 @section('content')
 <div class="main-content">
 
+
+
+
     <div class="page-content">
         <div class="container-fluid">
 
-            <form action="{{ url('products/'.$products->id) }}" method="POST"
+            <form action="{{ url('admin/products/'.$products->id) }}" method="POST"
                 enctype="multipart/form-data">
-                @method('PUT')
+                @method('POST')
                 @csrf
                 <div class="row mb-3">
                     <div class="col-lg-9">
@@ -15,6 +18,12 @@
                     </div>
                     <div class="col-lg-12">
                         <input name="name" value="{{ $products->name }}" type="text" class="form-control" id="nameInput" placeholder="Enter your name">
+                        @error('name')
+                        <span class="text-danger text-sm">
+                            {{ $message }}
+                        </span>
+
+                        @enderror
                     </div>
                 </div>
                 <div class="mb-3">
@@ -27,6 +36,11 @@
                     </option>
                     @empty
                  @endforelse
+                 @error('category_id')
+                 <span class="text-danger text-sm">
+                     {{ $message }}
+                 </span>
+                 @enderror
                 </select>
                 </div>
                 <div class="row mb-3">
@@ -35,6 +49,11 @@
                     </div>
                     <div class="col-lg-12">
                         <input name="description" value="{{ $products->description }}" type="text" class="form-control" id="descriptionInput" placeholder="Enter your description">
+                        @error('description')
+                        <span class="text-danger text-sm">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -44,7 +63,13 @@
                     <div class="col-lg-12">
                         {{-- {{ dd($products->image) }} --}}
                         <input name="image" value="{{ $products->image }}" type="file" accept="image/png, image/.jpeg, image/jpg" class="form-control" id="imageInput" placeholder="Enter your image">
-
+                        @error('image')
+                        <span class="text-danger text-sm">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                        <img src="{{ asset('images/'.$products->image) }}" alt="{{ $products->name }}" width="100px">
+                    </div>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -53,11 +78,17 @@
                     </div>
                     <div class="col-lg-12">
                         <input name="price" value="{{ $products->price }}" type="text" class="form-control" id="priceInput" placeholder="Enter your price">
-                    </div>
+                        @error('price')
+                        <span class="text-danger text-sm">
+                            {{ $message }}
+                        </span>
+                        @enderror
                 </div>
                 <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Add Leave</button>
+                    <button type="submit" class="btn btn-primary">Update and Leave</button>
+                    <a href="{{ url("admin/products") }}" class="btn btn-outline-secondary pull-right">Cancel</a>
                 </div>
+
             </form>
     </div>
 </div>

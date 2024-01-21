@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductStore;
+use App\Http\Requests\ProductUpdate;
 use App\Interfaces\ProductInterface;
 use App\Models\Category;
 use App\Models\Product;
+// use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -40,10 +42,11 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store( ProductStore $request)
     {
-        $this->ProductInterface->store($request);
-        return redirect('products');
+        $data = $request->only(['name','category_id','description','image','price']);
+        $this->ProductInterface->store($data );
+        return redirect('admin/products');
     }
 
     /**
@@ -67,11 +70,12 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update( string $id)
+    public function update( string $id,ProductUpdate $request, )
     {
-        // dd(request()->all());
-        $this->ProductInterface->update($id);
-        return redirect('products');
+        // dd('hi');
+        $data = $request->only(['name','category_id','description','image','price']);
+        $this->ProductInterface->update($id,$data);
+        return redirect('admin/products');
     }
 
     /**
@@ -80,6 +84,6 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $this->ProductInterface->destroy($id);
-        return redirect('products');
+        return redirect('admin/products');
     }
 }

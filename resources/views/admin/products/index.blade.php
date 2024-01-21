@@ -8,7 +8,7 @@
 
             <table class="table table-success table-striped align-middle table-nowrap mb-0">
                 <thead>
-                    <a href="{{ url('products/create') }}">
+                    <a href="{{ url('admin/products/create') }}">
                         <button type="button" class="btn btn-primary btn-label waves-effect waves-light"><i class="ri-user-smile-line label-icon align-middle fs-16 me-2"></i> Add</button>
                     </a>
                     <tr>
@@ -41,10 +41,10 @@
                         <th>{{ $product->price }}</th>
                         <td>
                             <div class="hstack gap-3 flex-wrap">
-                                <a href="{{ url('products/'.$product->id.'/edit') }}" href="javascript:void(0);"  class="link-success fs-15"><i class="ri-edit-2-line"></i>
+                                <a href="{{ url('admin/products/'.$product->id.'/edit') }}" href="javascript:void(0);"  class="link-success fs-15"><i class="ri-edit-2-line"></i>
                                 </a>
                                 <div class="remove">
-                                    <form action="{{ url('products/'.$product->id) }}" method="POST">
+                                    <form action="{{ url('admin/products/'.$product->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button style="background-color: transparent; border:none;" class="link-danger fs-15">

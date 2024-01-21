@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryStore;
+use App\Http\Requests\CategoryUpdate;
 use App\Interfaces\CategoryInterface;
-use Illuminate\Http\Request;
+use Exception;
+
 
 class CategoryController extends Controller
 {
@@ -20,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        // dd('hi');
+
         $categories = $this->CategoryInterface->all();
         return view('admin.categories.index', compact('categories'));
     }
@@ -36,10 +39,20 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryStore $request)
     {
-        $this->CategoryInterface->store();
-        return redirect('categories');
+        $data = $request->only(['name']);
+        try{
+            $this->CategoryInterface->store($data);
+
+           return redirect('admin/categories');
+        }
+        catch(Exception $e){
+
+            return redirect()->back()->withErrors('Failed to create!');
+        }
+
+
     }
 
     /**
@@ -62,10 +75,11 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryUpdate $request, string $id)
     {
-        $this->CategoryInterface->update($id);
-        return redirect('categories');
+        $data = $request->only(['name']);
+        $this->CategoryInterface->update($id,$data);
+        return redirect('admin/categories');
     }
 
     /**
@@ -74,6 +88,6 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $this->CategoryInterface->destroy($id);
-        return redirect('categories');
+        return redirect('admin/categories');
     }
 }

@@ -5,7 +5,7 @@
 
     <div class="page-content">
         <div class="container-fluid">
-            <form action="{{ url('categories') }}" method="POST">
+            <form action="{{ url('admin/categories') }}" method="POST">
                 @csrf
                 @method('POST')
                 <div class="row mb-3">
@@ -14,11 +14,16 @@
                     </div>
                     <div class="col-lg-9">
                         <input name="name" type="text" class="form-control" id="nameInput" placeholder="Enter your name">
+                        @error('name')
+                        <span class="text-danger text-sm">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Add Leave</button>
+                    <button type="submit" class="btn btn-primary">Add and Leave</button>
                 </div>
             </form>
         </div>

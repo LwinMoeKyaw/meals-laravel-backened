@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use App\Interfaces\ProductInterface;
 use Illuminate\Support\Facades\File;
 
@@ -14,23 +13,24 @@ class ProductRepository implements ProductInterface{
         return Product::all();
     }
 
-    public function store(Request $request){
+    public function store( ){
 
-        $imageName = time().'.'.$request->image->extension();
-
+        $imageName = time().'.'.request()->image->extension();
         $products = new Product();
         $products->name = request()->name;
         $products->category_id = request()->category_id;
         $products->description = request()->description;
-        $request->image->move(public_path('images'), $imageName);
+        request()->image->move(public_path('images'), $imageName);
         $products->image = $imageName;
         $products->price = request()->price;
         $products->save();
     }
+
     public function findById($id)
     {
         return Product::findOrFail($id);
     }
+
     public function update($id){
         $products = $this->findById($id);
         $products->name = request()->name;
@@ -54,12 +54,12 @@ class ProductRepository implements ProductInterface{
 
         }
         else {
+
             $products->image = $products->image;
 
         }
 
         $products->price = request()->price;
-        $products->save();
         $products->update();
 
       }
